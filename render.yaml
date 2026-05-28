@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: saturn-nexus-qr
+    env: python
+    buildCommand: "pip install -r requirements.txt && pip install gunicorn"
+    startCommand: "./start.sh"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DB_PATH
+        value: /opt/render/project/src/data/saturn_nexus.db
+      - key: PYTHON_VERSION
+        value: 3.10.0
+    # Optional persistent disk for SQLite Local Mode persistence.
+    # Note: Render Free Tier does not support persistent disks. 
+    # If using Render's Free tier, use Supabase cloud mode to store your DB and files.
+    # If on a paid tier, this disk ensures full local persistence:
+    disk:
+      name: saturn-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1
